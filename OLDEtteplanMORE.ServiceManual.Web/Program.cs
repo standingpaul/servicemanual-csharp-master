@@ -1,5 +1,5 @@
-
-
+﻿using EtteplanMORE.ServiceManual.ApplicationCore.Interfaces;
+using EtteplanMORE.ServiceManual.ApplicationCore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,16 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<IFactoryDeviceService, FactoryDeviceService>();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 
 app.UseHttpsRedirection();
 
