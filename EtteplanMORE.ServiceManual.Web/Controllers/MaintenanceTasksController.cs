@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EtteplanMORE.ServiceManual.ApplicationCore.Entities;
 using EtteplanMORE.ServiceManual.ApplicationCore.Interfaces;
+using EtteplanMORE.ServiceManual.ApplicationCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
@@ -18,7 +19,6 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         public MaintenanceTasksController(IMaintenanceTasksService factoryMaintenanceTasksService)
         {
             maintenanceTaskService = factoryMaintenanceTasksService;
-
         }
 
         /// <summary>
@@ -40,13 +40,21 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IEnumerable<MaintenanceTask>> Get(int id)
         {
-            return await maintenanceTaskService.Get(id);
+            return await maintenanceTaskService.GetMaintenanceTasksByDeviceId(id);
         }
 
-        [HttpPut("{deviceId}/{severity}")]
-        public async Task CreateNewTask(int deviceId, string description, Severity severity)
+        /// <summary>
+        /// HTTP PUT: api/maintenancetasks/{idOfDevice}
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="description"></param>
+        /// <param name="severity"></param>       
+        [HttpPut("{deviceId}/{description}/{severity}")]
+        public async Task<MaintenanceTask> CreateNewTask(string deviceId, string description, Severity severity)
         {
             await maintenanceTaskService.CreateNewTask(deviceId, description, severity);
+
+            return
         }
     }
 }
