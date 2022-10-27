@@ -9,10 +9,10 @@ namespace EtteplanMORE.ServiceManual.ApplicationCore.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string TaskId { get; private set; }
-        public string DeviceId { get; private set; }
-        public string Description { get; private set; }
-        public Severity Severity { get; private set; }
-        public MaintenanceTaskStatus TaskStatus { get; private set; }
+        public string DeviceId { get; set; }
+        public string Description { get; set; }
+        public Severity Severity { get; set; }
+        public MaintenanceTaskStatus TaskStatus { get; set; }
         public DateTime RegistrationTime { get; private set; } = DateTime.UtcNow;
 
         public MaintenanceTask(string deviceTaskRefersTo, string description, Severity severity, MaintenanceTaskStatus taskStatus)
