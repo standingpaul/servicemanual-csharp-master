@@ -15,9 +15,9 @@ namespace EtteplanMORE.ServiceManual.ApplicationCore.Entities
         public MaintenanceTaskStatus TaskStatus { get; set; }
         public DateTime RegistrationTime { get; private set; } = DateTime.UtcNow;
 
-        public MaintenanceTask(string deviceTaskRefersTo, string description, Severity severity, MaintenanceTaskStatus taskStatus)
+        public MaintenanceTask(string deviceId, string description, Severity severity, MaintenanceTaskStatus taskStatus)
         {
-            DeviceId = deviceTaskRefersTo;
+            DeviceId = deviceId;
             Description = description;
             Severity = severity;
             TaskStatus = taskStatus;

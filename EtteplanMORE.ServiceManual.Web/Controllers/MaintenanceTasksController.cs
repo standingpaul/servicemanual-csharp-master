@@ -59,10 +59,10 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         /// <param name="description"></param>
         /// <param name="severity"></param>    
         /// <returns>The new task, or null if not inserted</returns>
-        [HttpPut("CreateMaintenanceTask/{deviceId}/{description}/{severity}")]
-        public async Task<MaintenanceTask> CreateNewMaintenanceTask(string deviceId, string description, Severity severity)
+        [HttpPut("CreateMaintenanceTask")]
+        public async Task<MaintenanceTask> CreateNewMaintenanceTask([FromBody] MaintenanceTask maintenanceTask)
         {
-            return await maintenanceTasksService.CreateNewMaintenanceTask(deviceId, description, severity);
+            return await maintenanceTasksService.CreateNewMaintenanceTask(maintenanceTask.DeviceId, maintenanceTask.Description, maintenanceTask.Severity);
         }
 
         /// <summary>
@@ -74,15 +74,15 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         /// <param name="severity"></param>
         /// <param name="maintenanceTaskStatus"></param>
         /// <returns>boolean to inform if update was successful</returns>
-        [HttpPut("ModifyMaintenanceTask/{existingMaintenanceTaskId}/{deviceId}/{description}/{severity}/{maintenanceTaskStatus}")]
-        public async Task<bool> ModifyMaintenanceTask(string existingMaintenanceTaskId, string deviceId, string description, Severity severity, MaintenanceTaskStatus maintenanceTaskStatus)
+        [HttpPut("ModifyMaintenanceTask")]
+        public async Task<bool> ModifyMaintenanceTask([FromBody] MaintenanceTask maintenanceTask)
         {
             return await maintenanceTasksService.ModifyMaintenanceTask(
-                existingMaintenanceTaskId,
-                deviceId,
-                description,
-                severity,
-                maintenanceTaskStatus
+                maintenanceTask.TaskId,
+                maintenanceTask.DeviceId,
+                maintenanceTask.Description,
+                maintenanceTask.Severity,
+                maintenanceTask.TaskStatus
                 );
         }
 
@@ -91,7 +91,7 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         /// </summary>
         /// <param name="maintenanceTaskId"></param>
         /// <returns>boolean to inform if the task was deleted</returns>
-        [HttpPut("DeleteMaintenanceTask/{maintenanceTaskId}")]
+        [HttpDelete("DeleteMaintenanceTask/{maintenanceTaskId}")]
         public async Task<bool> DeleteMaintenanceTask(string maintenanceTaskId)
         {
             return await maintenanceTasksService.DeleteMaintenanceTask(maintenanceTaskId);
