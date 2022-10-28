@@ -18,10 +18,8 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
             maintenanceTasksService = factoryMaintenanceTasksService;
         }
 
-        // MAINTENANCE TASKS
-
         /// <summary>
-        /// HTTP GET: ServiceManual/AllTasks
+        /// HTTP GET: /ServiceManual/AllMaintenanceTasks
         /// </summary>
         /// <returns>List of all maintenance tasks ordered by severity then registration time</returns>
         [HttpGet("AllMaintenanceTasks")]
@@ -34,7 +32,7 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         /// HTTP GET: ServiceManual/SingleMaintenanceTaskByTaskId/{maintenanceTaskId}
         /// </summary>
         /// <param name="maintenanceTaskId"></param>
-        /// <returns>A single task frmo given task id or null if not found</returns>
+        /// <returns>A single task from given task id or null if not found</returns>
         [HttpGet("SingleMaintenanceTaskByTaskId/{maintenanceTaskId}")]
         public async Task<MaintenanceTask> GetSingleMaintenanceTaskByTaskId(string maintenanceTaskId)
         {
@@ -53,11 +51,9 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         }
 
         /// <summary>
-        /// HTTP PUT: ServiceManual/CreateMaintenanceTask/{deviceId}/{description}/{severity}
+        /// HTTP PUT: ServiceManual/CreateMaintenanceTask
         /// </summary>
-        /// <param name="deviceId"></param>
-        /// <param name="description"></param>
-        /// <param name="severity"></param>    
+        /// <param name="maintenanceTask"></param>         
         /// <returns>The new task, or null if not inserted</returns>
         [HttpPut("CreateMaintenanceTask")]
         public async Task<MaintenanceTask> CreateNewMaintenanceTask([FromBody] MaintenanceTask maintenanceTask)
@@ -66,19 +62,15 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         }
 
         /// <summary>
-        /// ServiceManual/ModifyMaintenanceTask/{existingMaintenanceTaskId}/{deviceId}/{description}/{severity}/{maintenanceTaskStatus}
+        /// HTTP PUT: ServiceManual/ModifyMaintenanceTask/{TaskId}
         /// </summary>
-        /// <param name="maintenanceTaskId"></param>
-        /// <param name="deviceId"></param>
-        /// <param name="description"></param>
-        /// <param name="severity"></param>
-        /// <param name="maintenanceTaskStatus"></param>
+        /// <param name="maintenanceTask"></param>       
         /// <returns>boolean to inform if update was successful</returns>
-        [HttpPut("ModifyMaintenanceTask")]
-        public async Task<bool> ModifyMaintenanceTask([FromBody] MaintenanceTask maintenanceTask)
+        [HttpPut("ModifyMaintenanceTask/{maintenanceTaskId}")]
+        public async Task<bool> ModifyMaintenanceTask([FromBody] MaintenanceTask maintenanceTask, string maintenanceTaskId)
         {
             return await maintenanceTasksService.ModifyMaintenanceTask(
-                maintenanceTask.TaskId,
+                maintenanceTaskId,
                 maintenanceTask.DeviceId,
                 maintenanceTask.Description,
                 maintenanceTask.Severity,
@@ -87,7 +79,7 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         }
 
         /// <summary>
-        /// Method to delete a single maintenance task by its id
+        /// HTTP DELETE: ServiceManual/DeleteMaintenanceTask/{maintenanceTaskId}
         /// </summary>
         /// <param name="maintenanceTaskId"></param>
         /// <returns>boolean to inform if the task was deleted</returns>
@@ -97,10 +89,8 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
             return await maintenanceTasksService.DeleteMaintenanceTask(maintenanceTaskId);
         }
 
-        // DEVICES
-
         /// <summary>
-        /// ServiceManual/AllDevices
+        /// HTTP GET: ServiceManual/AllDevices
         /// </summary>
         /// <returns>List of all devices in the database</returns>
         [HttpGet("AllDevices")]
@@ -110,7 +100,7 @@ namespace EtteplanMORE.ServiceManual.Web.Controllers
         }
 
         /// <summary>
-        /// ServiceManual/SingleDeviceById/{deviceId}
+        /// HTTP GET: ServiceManual/SingleDeviceById/{deviceId}
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns>The device or null if device was not found</returns>

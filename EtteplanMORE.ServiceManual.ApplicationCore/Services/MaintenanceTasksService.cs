@@ -80,7 +80,7 @@ namespace EtteplanMORE.ServiceManual.ApplicationCore.Services
         /// <returns>List of the maintenance tasks which are attached to the given device id</returns>
         public async Task<IEnumerable<MaintenanceTask>> GetMaintenanceTasksByDeviceId(string deviceId)
         {
-            return await maintenanceTasksCollection.Find(MaintenanceTask => MaintenanceTask.DeviceId == deviceId).SortByDescending(MaintenanceTask => MaintenanceTask.Severity).ThenBy(MaintenanceTask => MaintenanceTask.RegistrationTime).ToListAsync();
+            return await maintenanceTasksCollection.Find(MaintenanceTask => MaintenanceTask.DeviceId == deviceId).SortBy(MaintenanceTask => MaintenanceTask.Severity).ThenBy(MaintenanceTask => MaintenanceTask.RegistrationTime).ToListAsync();
         }
 
         /// <summary>
@@ -116,15 +116,19 @@ namespace EtteplanMORE.ServiceManual.ApplicationCore.Services
         /// <returns>boolean to inform if update was successful</returns>
         public async Task<bool> ModifyMaintenanceTask(string maintenanceTaskId, string deviceId, string description, Severity severity, MaintenanceTaskStatus maintenanceTaskStatus)
         {
-            // If the device does not exist, do not update and return false
-            if (await GetSingleDeviceById(deviceId) == null)
+            MaintenanceTask modifiedMaintenanceTask = await GetSingleMaintenanceTaskByTaskId(maintenanceTaskId);
+
+            if (modifiedMaintenanceTask == null)
             {
                 return false;
             }
 
-            MaintenanceTask modifiedMaintenanceTask = await GetSingleMaintenanceTaskByTaskId(maintenanceTaskId);
+            // If the device exists, update the device id
+            if (!(await GetSingleDeviceById(deviceId) == null))
+            {
+                modifiedMaintenanceTask.DeviceId = deviceId;
+            }
 
-            modifiedMaintenanceTask.DeviceId = deviceId;
             modifiedMaintenanceTask.Description = description;
             modifiedMaintenanceTask.Severity = severity;
             modifiedMaintenanceTask.TaskStatus = maintenanceTaskStatus;
