@@ -2,16 +2,16 @@
 
 ## What is it?
 
-This application allows the querying, creation, modification and deletion of maintenance tasks, each of with relates to a single factory device.
+This application allows the querying, creation, modification and deletion of maintenance tasks, each of which relates to a single factory device.
 
 Maintenance tasks contain the following elements;
 
 - Task Id (created automatically)
-- Device Id - The device which the maintenance task is for
+- Device Id - The device the maintenance task is for
 - Description - Description of the maintenance task
 - Severity - Severity of the task (0 critical, 1 important, 2 unimportant)
 - Task Status - 0 open, 1 closed
-- Registration Time - The date and time that the task was created in UTC
+- Registration Time - The date and time that the task was created in UTC (created automatically)
 
 
 
@@ -31,7 +31,7 @@ Maintenance tasks contain the following elements;
 
 ## How to use
 
-To launch the application, open the ServiceManual.sln solution and run from visual studio (SerivceManual button).
+To launch the application, open the ServiceManual.sln solution and run from visual studio (ServiceManual button).
 
 The easiest way to send data is to use swagger which should launch automatically , https://localhost:7079/swagger/index.html if it doesn't.
 
